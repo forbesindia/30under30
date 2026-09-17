@@ -365,7 +365,6 @@ function f(id, label, type, opts){
 
 const LEGAL_STATUS_OPTIONS = ['Private limited company','Public limited company','Partnership','LLP','Other'];
 const FUNDING_SOURCE_OPTIONS = ['Private equity','VC funding','Bootstrapped','Angel investors','Bank loans','Personal savings','Debt capital','Government programs','Other'];
-const OPERATE_FROM_OPTIONS = ['Corporate office','Co-working space','Remote work','Factory','Home','Other'];
 
 const ALLOWED_FILE_EXTENSIONS = ['pdf','doc','docx','odt','rtf','txt','ppt','pptx','jpg','jpeg','png','gif','webp','bmp','heic','heif'];
 const FILE_ACCEPT = ALLOWED_FILE_EXTENSIONS.map(ext => '.' + ext).join(',');
@@ -377,6 +376,9 @@ function resumeField(){
 }
 function idField(){
   return f('gov_id','Please upload a government photo ID.','file');
+}
+function motivationField(){
+  return f('motivation','What is your main motivation?','textarea',{wordLimit:150});
 }
 
 const DEFAULT_ENTREPRENEUR_FIELDS = [
@@ -396,7 +398,7 @@ const DEFAULT_ENTREPRENEUR_FIELDS = [
   f('revenue_fy26',"What were your venture's revenues from operations as of FY26?",'text',{hint:'Please specify if not generating revenue'}),
   f('pipeline','What does your project pipeline look like for the next 12 months?','textarea'),
   f('milestones','Your biggest milestones since starting out.','textarea'),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150}),
+  motivationField(),
   f('reference','Who could we ask about you?','textarea'),
   f('media','Have you been written about in the media? If so, please give us links to the articles.','textarea',{required:false}),
   idField()
@@ -411,7 +413,7 @@ const DEFAULT_PROFESSIONAL_FIELDS = [
   f('nominee_phone',"Nominee's phone number",'tel'),
   f('nominee_email',"Nominee's email ID",'email'),
   f('nominee_achievements','Now, tell us more about the nominee — what are their achievements and what makes them exceptional.','textarea'),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150, required:false}),
+  motivationField(),
   f('nominee_social',"The nominee's social media profiles and website, if any.",'textarea',{required:false}),
   f('nominee_reference','Whom can we ask more about the nominee? Please give their contact details.','textarea'),
   f('nominee_media','Has the nominee been written about in the media? If yes, please share the links.','textarea',{required:false}),
@@ -440,7 +442,7 @@ const DEEPTECH_FIELDS = [
   f('clients','Notable clients, partnerships, or deployments','textarea',{required:false}),
   f('pipeline','Project pipeline for the next 12 months','textarea'),
   f('milestones','Biggest milestones since starting out','textarea'),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150}),
+  motivationField(),
   f('reference','References','textarea'),
   f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
   idField()
@@ -465,7 +467,7 @@ const AI_FIELDS = [
   f('clients','Notable clients, partnerships, or deployments','textarea',{required:false}),
   f('pipeline','Project pipeline for the next 12 months','textarea'),
   f('milestones','Biggest milestones since starting out','textarea'),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150}),
+  motivationField(),
   f('reference','References','textarea'),
   f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
   idField()
@@ -490,7 +492,7 @@ const D2C_FIELDS = [
   f('key_metrics','Key metrics — customers served, repeat purchase rate, cities/markets present in','textarea'),
   f('partnerships','Notable retail partnerships and collaborations','textarea',{required:false}),
   f('milestones','Biggest milestones since starting out','textarea'),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150}),
+  motivationField(),
   f('reference','References','textarea'),
   f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
   idField()
@@ -517,7 +519,7 @@ const ROBOTICS_FIELDS = [
   f('clients','Notable clients, partnerships, or deployments','textarea',{required:false}),
   f('pipeline','Project pipeline for the next 12 months','textarea'),
   f('milestones','Biggest milestones since starting out','textarea'),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150}),
+  motivationField(),
   f('reference','References','textarea'),
   f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
   idField()
@@ -536,7 +538,7 @@ const MUSIC_FIELDS = [
   f('next_12','What\'s on your slate for the next 12 months? (albums, tours, collaborations, releases)','textarea'),
   f('collaborations','Any notable collaborations, awards, or chart positions?','textarea',{required:false}),
   f('milestones','Your biggest milestones since starting out.','textarea'),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150}),
+  motivationField(),
   f('reference','References','textarea'),
   f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
   idField()
@@ -553,7 +555,7 @@ const ENTERTAINMENT_FIELDS = [
   f('awards','Awards and nominations','textarea',{required:false}),
   f('next_12','What\'s on your slate for the next 12 months? (albums, tours, collaborations, releases)','textarea'),
   f('milestones','Your biggest milestones since starting out.','textarea'),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150}),
+  motivationField(),
   f('why_list','Why do you think you should be on the list?','textarea',{wordLimit:100}),
   f('reference','References','textarea'),
   idField()
@@ -567,11 +569,42 @@ const ART_FIELDS = [
   f('residencies','Scholarship and residency programmes attended','textarea',{required:false}),
   f('exhibitions','Exhibitions where artworks have been showcased','textarea'),
   f('awards','Awards received','textarea',{required:false}),
-  f('motivation','What is your main motivation?','textarea',{wordLimit:150}),
+  motivationField(),
+  idField()
+];
+
+const SPORTS_FIELDS = [
+  f('email','Email address','email'),
+  f('phone','Phone number','tel'),
+  f('sport','Sport/discipline','text'),
+  f('team_club','Current team/club or affiliation','text',{required:false}),
+  f('highlights','Career highlights and major titles/medals','textarea'),
+  f('personal_bests','Personal bests or key performance stats','textarea',{required:false}),
+  f('coaches','Coaches or mentors who shaped your career','textarea',{required:false}),
+  f('sponsorships','Sponsorships or endorsements, if any','textarea',{required:false}),
+  f('next_12','What\'s next — upcoming tournaments/goals for the next 12 months','textarea'),
+  motivationField(),
+  f('reference','References','textarea'),
+  idField()
+];
+
+const BOOKS_FIELDS = [
+  f('email','Email address','email'),
+  f('phone','Phone number','tel'),
+  f('languages','Language(s) you write in','text'),
+  f('published_works','Notable published works (titles, publishers, years)','textarea'),
+  f('genres','Genre(s) you work in','text'),
+  f('awards','Awards, recognitions, or bestseller status','textarea',{required:false}),
+  f('bio_cv','Upload bio / CV','file'),
+  f('links','Links to your work or author profile','textarea',{required:false}),
+  f('why_list','Why do you think you should be on the list?','textarea',{wordLimit:100}),
+  motivationField(),
+  f('reference','References','textarea'),
   idField()
 ];
 
 const CATEGORIES = [
+  { name:'Advertising and Marketing', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
   { name:'AI', split:true, baseEntrepreneurFields:AI_FIELDS },
   { name:'Art', split:false, fields:ART_FIELDS },
   { name:'Books & publishing (fiction & non-fiction; all Indian languages)', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
@@ -643,9 +676,6 @@ function checkIdentityGate(){
   }
 
   const dobVal = `${y}-${m}-${d}`;
-  
-  // Cutoff is under 30 as of Dec 31, 2026. 
-  // Meaning they must be born after Dec 31, 1996 (Jan 1, 1997 or later)
   const eligible = dobVal >= '1996-12-31';
   
   if (!eligible) {
@@ -726,25 +756,29 @@ function renderFields(fields){
 
   fields.forEach(field => fieldsContainer.appendChild(renderField(field)));
   
-  // Conditionally toggle 'motivation' field if available (for Professional nominating Self)
   const nomRadios = document.querySelectorAll('input[name="nominating_who"]');
   const motInput = document.getElementById('motivation');
   
-  if (nomRadios.length && motInput) {
+  if (motInput) {
     const motFieldWrap = motInput.closest('.field');
-    const toggleMotivation = () => {
-      const selected = document.querySelector('input[name="nominating_who"]:checked');
-      if (selected && selected.value === 'Self') {
-        motFieldWrap.style.display = 'block';
-        motInput.required = true;
-      } else {
-        motFieldWrap.style.display = 'none';
-        motInput.required = false;
-        motInput.value = ''; 
-      }
-    };
-    nomRadios.forEach(r => r.addEventListener('change', toggleMotivation));
-    toggleMotivation(); 
+    if (nomRadios.length) {
+      const toggleMotivation = () => {
+        const selected = document.querySelector('input[name="nominating_who"]:checked');
+        if (selected && selected.value === 'Self') {
+          motFieldWrap.style.display = 'block';
+          motInput.required = true;
+        } else {
+          motFieldWrap.style.display = 'none';
+          motInput.required = false;
+          motInput.value = ''; 
+        }
+      };
+      nomRadios.forEach(r => r.addEventListener('change', toggleMotivation));
+      toggleMotivation(); 
+    } else {
+      motFieldWrap.style.display = 'block';
+      motInput.required = true;
+    }
   }
 }
 
@@ -903,9 +937,15 @@ async function collectData(){
   const files = [];
 
   for (const field of currentFields) {
+    if (field.id === 'motivation' && currentTrack === 'Professional') {
+      const selected = document.querySelector('input[name="nominating_who"]:checked');
+      if (!selected || selected.value !== 'Self') continue;
+    }
+
     if (field.type === 'textarea' || field.type === 'select' ||
         (['text','email','tel','number','url','date'].includes(field.type))) {
       const el = document.getElementById(field.id);
+      if (!el) continue;
       let value = el.value.trim();
       if (field.type === 'select' && value === 'Other') {
         const otherEl = document.getElementById(field.id + '_other');
@@ -928,6 +968,7 @@ async function collectData(){
 
     } else if (field.type === 'file') {
       const el = document.getElementById(field.id);
+      if (!el) continue;
       const file = el.files && el.files[0];
       data[field.label] = '';
       if (file) {
@@ -967,7 +1008,7 @@ form.addEventListener('submit', async (e) => {
     submitStatus.className = 'submit-status error';
     return;
   }
-  if (!globalDob || globalDob <= '1996-12-31') {
+  if (!globalDob || globalDob < '1996-12-31') {
     submitStatus.textContent = 'Please enter an eligible date of birth first.';
     submitStatus.className = 'submit-status error';
     return;
@@ -1002,7 +1043,7 @@ form.addEventListener('submit', async (e) => {
       category: currentCategory.name,
       track: currentTrack,
       data,
-      files
+    files
     };
 
     const res = await fetch(ENDPOINT_URL, {
