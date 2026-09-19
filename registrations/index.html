@@ -279,7 +279,7 @@
       <strong>Eligibility:</strong> You will be eligible to nominate yourself only if you are under 30 years of age as of December 31, 2026.
     </div>
     
-    <div class="deadline-banner">
+    <div class="deadline-banner" style="margin-top: 16px;">
       <strong>Important:</strong> The last date for registration is October 10, 2026.
     </div>
   </header>
@@ -417,6 +417,28 @@ const DEFAULT_PROFESSIONAL_FIELDS = [
   f('nominee_social',"The nominee's social media profiles and website, if any.",'textarea',{required:false}),
   f('nominee_reference','Whom can we ask more about the nominee? Please give their contact details.','textarea'),
   f('nominee_media','Has the nominee been written about in the media? If yes, please share the links.','textarea',{required:false}),
+  idField()
+];
+
+const ADVERTISING_MARKETING_FIELDS = [
+  f('email','Email address','email'),
+  f('phone','Phone number','tel'),
+  f('role','Current designation / role','text'),
+  f('company_name','Name of company / organisation','text'),
+  f('founded_year','Company / organisation founded in','number',{min:1950,max:2026}),
+  f('website','Official website','url',{required:false}),
+  f('ad_area','Which area of advertising and marketing do you work in? (Eg: Advertising, Brand Marketing, Digital Marketing, Creative, Media, PR, Influencer Marketing, MarTech, Content, etc.)','text'),
+  f('team_size','Current team size / team you lead','text'),
+  f('role_desc','Briefly describe your current role and responsibilities.','textarea'),
+  f('key_brands','What are the key brands, campaigns or businesses you have worked on?','textarea'),
+  f('notable_campaign','What is the most notable campaign or project you have led or contributed to?','textarea'),
+  f('measurable_impact','What measurable impact did your work create? (Eg: revenue, growth, reach, engagement, brand awareness, market share, leads, etc.)','textarea'),
+  f('biggest_achievement','What is your biggest professional achievement to date?','textarea'),
+  f('built_business','Have you built an agency or business of your own? Please share details.','textarea',{required:false}),
+  f('milestones','What are the biggest milestones in your career so far?','textarea'),
+  f('awards','Have you won or been shortlisted for any notable awards? Please include the award, category and year.','textarea',{required:false}),
+  f('reference','References','textarea'),
+  f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
   idField()
 ];
 
@@ -604,7 +626,7 @@ const BOOKS_FIELDS = [
 ];
 
 const CATEGORIES = [
-  { name:'Advertising and Marketing', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
+  { name:'Advertising and Marketing', split:false, fields:ADVERTISING_MARKETING_FIELDS },
   { name:'AI', split:true, baseEntrepreneurFields:AI_FIELDS },
   { name:'Art', split:false, fields:ART_FIELDS },
   { name:'Books & publishing (fiction & non-fiction; all Indian languages)', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
@@ -1043,7 +1065,7 @@ form.addEventListener('submit', async (e) => {
       category: currentCategory.name,
       track: currentTrack,
       data,
-    files
+      files
     };
 
     const res = await fetch(ENDPOINT_URL, {
