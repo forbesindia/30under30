@@ -577,9 +577,9 @@ const ENTERTAINMENT_FIELDS = [
   f('awards','Awards and nominations','textarea',{required:false}),
   f('next_12','What\'s on your slate for the next 12 months? (albums, tours, collaborations, releases)','textarea'),
   f('milestones','Your biggest milestones since starting out.','textarea'),
+  f('reference','References','textarea'),
   motivationField(),
   f('why_list','Why do you think you should be on the list?','textarea',{wordLimit:100}),
-  f('reference','References','textarea'),
   idField()
 ];
 
@@ -610,32 +610,15 @@ const SPORTS_FIELDS = [
   idField()
 ];
 
-const BOOKS_FIELDS = [
-  f('email','Email address','email'),
-  f('phone','Phone number','tel'),
-  f('languages','Language(s) you write in','text'),
-  f('published_works','Notable published works (titles, publishers, years)','textarea'),
-  f('genres','Genre(s) you work in','text'),
-  f('awards','Awards, recognitions, or bestseller status','textarea',{required:false}),
-  f('bio_cv','Upload bio / CV','file'),
-  f('links','Links to your work or author profile','textarea',{required:false}),
-  f('why_list','Why do you think you should be on the list?','textarea',{wordLimit:100}),
-  motivationField(),
-  f('reference','References','textarea'),
-  idField()
-];
-
 const CATEGORIES = [
   { name:'Advertising and Marketing', split:false, fields:ADVERTISING_MARKETING_FIELDS },
   { name:'AI', split:true, baseEntrepreneurFields:AI_FIELDS },
   { name:'Art', split:false, fields:ART_FIELDS },
-  { name:'Books & publishing (fiction & non-fiction; all Indian languages)', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
   { name:'Clean energy & climate change', split:true },
   { name:'Deeptech/frontier tech', split:false, fields:DEEPTECH_FIELDS },
   { name:'Defence & space', split:true },
   { name:'Design & architecture', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
   { name:'D2C', split:false, fields:D2C_FIELDS },
-  { name:'Ecommerce & retail', split:true },
   { name:'Entertainment', split:false, fields:ENTERTAINMENT_FIELDS },
   { name:'Fashion', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[f('nominee_milestones', "Nominee's biggest milestones since starting out", 'textarea'), f('nominee_exceptional', 'What do you think makes the nominee exceptional?', 'textarea'), resumeField()] },
   { name:'Finance', split:true },
