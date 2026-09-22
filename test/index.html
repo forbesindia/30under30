@@ -279,7 +279,7 @@
       <strong>Eligibility:</strong> You will be eligible to nominate yourself only if you are under 30 years of age as of December 31, 2026.
     </div>
     
-    <div class="deadline-banner">
+    <div class="deadline-banner" style="margin-top: 16px;">
       <strong>Important:</strong> The last date for registration is October 10, 2026.
     </div>
   </header>
@@ -420,6 +420,28 @@ const DEFAULT_PROFESSIONAL_FIELDS = [
   idField()
 ];
 
+const ADVERTISING_MARKETING_FIELDS = [
+  f('email','Email address','email'),
+  f('phone','Phone number','tel'),
+  f('role','Current designation / role','text'),
+  f('company_name','Name of company / organisation','text'),
+  f('founded_year','Company / organisation founded in','number',{min:1950,max:2026}),
+  f('website','Official website','url',{required:false}),
+  f('ad_area','Which area of advertising and marketing do you work in? (Eg: Advertising, Brand Marketing, Digital Marketing, Creative, Media, PR, Influencer Marketing, MarTech, Content, etc.)','text'),
+  f('team_size','Current team size / team you lead','text'),
+  f('role_desc','Briefly describe your current role and responsibilities.','textarea'),
+  f('key_brands','What are the key brands, campaigns or businesses you have worked on?','textarea'),
+  f('notable_campaign','What is the most notable campaign or project you have led or contributed to?','textarea'),
+  f('measurable_impact','What measurable impact did your work create? (Eg: revenue, growth, reach, engagement, brand awareness, market share, leads, etc.)','textarea'),
+  f('biggest_achievement','What is your biggest professional achievement to date?','textarea'),
+  f('built_business','Have you built an agency or business of your own? Please share details.','textarea',{required:false}),
+  f('milestones','What are the biggest milestones in your career so far?','textarea'),
+  f('awards','Have you won or been shortlisted for any notable awards? Please include the award, category and year.','textarea',{required:false}),
+  f('reference','References','textarea'),
+  f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
+  idField()
+];
+
 const DEEPTECH_FIELDS = [
   f('email','Email address','email'),
   f('phone','Phone number','tel'),
@@ -555,9 +577,9 @@ const ENTERTAINMENT_FIELDS = [
   f('awards','Awards and nominations','textarea',{required:false}),
   f('next_12','What\'s on your slate for the next 12 months? (albums, tours, collaborations, releases)','textarea'),
   f('milestones','Your biggest milestones since starting out.','textarea'),
+  f('reference','References','textarea'),
   motivationField(),
   f('why_list','Why do you think you should be on the list?','textarea',{wordLimit:100}),
-  f('reference','References','textarea'),
   idField()
 ];
 
@@ -588,32 +610,15 @@ const SPORTS_FIELDS = [
   idField()
 ];
 
-const BOOKS_FIELDS = [
-  f('email','Email address','email'),
-  f('phone','Phone number','tel'),
-  f('languages','Language(s) you write in','text'),
-  f('published_works','Notable published works (titles, publishers, years)','textarea'),
-  f('genres','Genre(s) you work in','text'),
-  f('awards','Awards, recognitions, or bestseller status','textarea',{required:false}),
-  f('bio_cv','Upload bio / CV','file'),
-  f('links','Links to your work or author profile','textarea',{required:false}),
-  f('why_list','Why do you think you should be on the list?','textarea',{wordLimit:100}),
-  motivationField(),
-  f('reference','References','textarea'),
-  idField()
-];
-
 const CATEGORIES = [
-  { name:'Advertising and Marketing', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
+  { name:'Advertising and Marketing', split:false, fields:ADVERTISING_MARKETING_FIELDS },
   { name:'AI', split:true, baseEntrepreneurFields:AI_FIELDS },
   { name:'Art', split:false, fields:ART_FIELDS },
-  { name:'Books & publishing (fiction & non-fiction; all Indian languages)', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
   { name:'Clean energy & climate change', split:true },
   { name:'Deeptech/frontier tech', split:false, fields:DEEPTECH_FIELDS },
   { name:'Defence & space', split:true },
   { name:'Design & architecture', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
   { name:'D2C', split:false, fields:D2C_FIELDS },
-  { name:'Ecommerce & retail', split:true },
   { name:'Entertainment', split:false, fields:ENTERTAINMENT_FIELDS },
   { name:'Fashion', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[f('nominee_milestones', "Nominee's biggest milestones since starting out", 'textarea'), f('nominee_exceptional', 'What do you think makes the nominee exceptional?', 'textarea'), resumeField()] },
   { name:'Finance', split:true },
@@ -1043,7 +1048,7 @@ form.addEventListener('submit', async (e) => {
       category: currentCategory.name,
       track: currentTrack,
       data,
-    files
+      files
     };
 
     const res = await fetch(ENDPOINT_URL, {
