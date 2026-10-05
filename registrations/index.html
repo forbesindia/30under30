@@ -280,7 +280,7 @@
     </div>
     
     <div class="deadline-banner" style="margin-top: 16px;">
-      <strong>Important:</strong> The last date for registration is October 10, 2026.
+      <strong>Important:</strong> The last date for registration is October 1, 2026.
     </div>
   </header>
 
@@ -437,6 +437,48 @@ const ADVERTISING_MARKETING_FIELDS = [
   f('built_business','Have you built an agency or business of your own? Please share details.','textarea',{required:false}),
   f('milestones','What are the biggest milestones in your career so far?','textarea'),
   f('awards','Have you won or been shortlisted for any notable awards? Please include the award, category and year.','textarea',{required:false}),
+  f('reference','References','textarea'),
+  f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
+  idField()
+];
+
+const INDUSTRY_FIELDS = [
+  f('email','Email address','email'),
+  f('phone','Phone number','tel'),
+  f('role','Current designation / role','text'),
+  f('company_name','Name of the Industry','text'),
+  f('industry_sector','Which sector or business vertical does your industry operate within?','text'),
+  f('founded_year','Organization founded in','number',{min:1800,max:2026}),
+  f('website','Official website','url',{required:false}),
+  f('scale','Total scale of the business/vertical you manage (e.g., revenue, team size, asset scale, or market reach)','textarea'),
+  f('role_desc','Briefly describe your core responsibilities and leadership role within the industry.','textarea'),
+  f('strategic_initiatives','What are the most significant strategic initiatives or projects you have driven?','textarea'),
+  f('measurable_impact','What measurable business impact or transformation did your leadership/projects create?','textarea'),
+  f('biggest_achievement','What is your biggest professional achievement to date?','textarea'),
+  f('milestones','What are the biggest milestones in your career so far?','textarea'),
+  f('awards','Have you won or been shortlisted for any notable awards? Please include the award, category and year.','textarea',{required:false}),
+  motivationField(),
+  f('reference','References','textarea'),
+  f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
+  idField()
+];
+
+const DIVERSIFIED_GROUP_FIELDS = [
+  f('email','Email address','email'),
+  f('phone','Phone number','tel'),
+  f('role','Current designation / role','text'),
+  f('company_name','Name of the Diversified Group / Conglomerate','text'),
+  f('group_sector','Which sector/business vertical within the diversified group do you primarily lead or work in?','text'),
+  f('founded_year','Group founded in','number',{min:1800,max:2026}),
+  f('website','Official website','url',{required:false}),
+  f('scale','Total scale of the business/vertical you manage (e.g., revenue, team size, asset scale, or market reach)','textarea'),
+  f('role_desc','Briefly describe your core responsibilities and leadership role within the diversified group.','textarea'),
+  f('strategic_initiatives','What are the most significant strategic initiatives or projects you have driven?','textarea'),
+  f('measurable_impact','What measurable business impact or transformation did your leadership/projects create?','textarea'),
+  f('biggest_achievement','What is your biggest professional achievement to date?','textarea'),
+  f('milestones','What are the biggest milestones in your career so far?','textarea'),
+  f('awards','Have you won or been shortlisted for any notable awards? Please include the award, category and year.','textarea',{required:false}),
+  motivationField(),
   f('reference','References','textarea'),
   f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
   idField()
@@ -618,6 +660,7 @@ const CATEGORIES = [
   { name:'Deeptech/frontier tech', split:false, fields:DEEPTECH_FIELDS },
   { name:'Defence & space', split:true },
   { name:'Design & architecture', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[resumeField()] },
+  { name:'Diversified Group', split:false, fields:DIVERSIFIED_GROUP_FIELDS },
   { name:'D2C', split:false, fields:D2C_FIELDS },
   { name:'Entertainment', split:false, fields:ENTERTAINMENT_FIELDS },
   { name:'Fashion', split:true, extraEntrepreneurFields:[resumeField()], extraProfessionalFields:[f('nominee_milestones', "Nominee's biggest milestones since starting out", 'textarea'), f('nominee_exceptional', 'What do you think makes the nominee exceptional?', 'textarea'), resumeField()] },
@@ -625,6 +668,7 @@ const CATEGORIES = [
   { name:'Food & hospitality', split:true },
   { name:'Grassroots entrepreneur', split:false, fields:DEFAULT_ENTREPRENEUR_FIELDS },
   { name:'Healthcare', split:true },
+  { name:'Industry', split:false, fields:INDUSTRY_FIELDS },
   { name:'Law & public policy', split:true },
   { name:'Music', split:false, fields:MUSIC_FIELDS },
   { name:'Social impact', split:true },
