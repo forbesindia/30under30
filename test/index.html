@@ -280,7 +280,7 @@
     </div>
     
     <div class="deadline-banner" style="margin-top: 16px;">
-      <strong>Important:</strong> The last date for registration is October 16, 2026.
+      <strong>Important:</strong> The last date for registration is October 16, 2026. <span id="countdownTimer" style="display:block; margin-top:4px; font-weight:600; color:#be123c;"></span>
     </div>
   </header>
 
@@ -358,26 +358,50 @@
 
 <script>
 /* ============================================================
-   APPLICATIONS CLOSED OVERLAY HANDLER
+   APPLICATIONS CLOSED & COUNTDOWN TIMER HANDLER
    ============================================================ */
-document.addEventListener("DOMContentLoaded", function() {
+// Set deadline to midnight ending today (12:00 AM tonight)
+const deadline = new Date();
+deadline.setHours(24, 0, 0, 0);
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = deadline - now;
   const formWrap = document.getElementById('formWrap');
-  if (formWrap) {
-    formWrap.innerHTML = `
-      <div style="text-align: center; padding: 40px 10px;">
-        <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 32px; color: var(--accent); margin-bottom: 16px;">
-          Applications Are Now Closed
-        </h2>
-        <p style="color: var(--muted); font-size: 16px; max-width: 48ch; margin: 0 auto 24px auto; line-height: 1.6;">
-          Thank you for an overwhelming response to the Forbes India 30 Under 30 2027 edition. The submission window has officially closed. Stay tuned for the announcement of the final list!
-        </p>
-        <a href="https://www.forbesindia.com/lists/30-under-30" target="_blank" rel="noopener noreferrer" style="color: var(--accent-blue); font-weight: 600; text-decoration: underline;">
-          Explore Past Lists &rarr;
-        </a>
-      </div>
-    `;
+  
+  if (diff <= 0) {
+    if (formWrap) {
+      formWrap.innerHTML = `
+        <div style="text-align: center; padding: 40px 10px;">
+          <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 32px; color: var(--accent); margin-bottom: 16px;">
+            Applications Are Now Closed
+          </h2>
+          <p style="color: var(--muted); font-size: 16px; max-width: 48ch; margin: 0 auto 24px auto; line-height: 1.6;">
+            Thank you for an overwhelming response to the Forbes India 30 Under 30 2027 edition. The submission window has officially closed at midnight. Stay tuned for the announcement of the final list!
+          </p>
+          <a href="https://www.forbesindia.com/lists/30-under-30" target="_blank" rel="noopener noreferrer" style="color: var(--accent-blue); font-weight: 600; text-decoration: underline;">
+            Explore Past Lists &rarr;
+          </a>
+        </div>
+      `;
+    }
+    const timerEl = document.getElementById('countdownTimer');
+    if (timerEl) timerEl.textContent = "Applications closed.";
+    return;
   }
-});
+
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  const timerEl = document.getElementById('countdownTimer');
+  if (timerEl) {
+    timerEl.textContent = `Closing in: ${hours}h ${minutes}m ${seconds}s left`;
+  }
+}
+
+setInterval(updateCountdown, 1000);
+document.addEventListener("DOMContentLoaded", updateCountdown);
 
 const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbyFB6l7DVekuVx9kX_7W8TiVbWopuxf4fwjb0YhYTkwJZ2ETztQUanCV0w5PQEG07Vh/exec";
 
