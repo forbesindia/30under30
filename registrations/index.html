@@ -280,7 +280,7 @@
     </div>
     
     <div class="deadline-banner" style="margin-top: 16px;">
-      <strong>Important:</strong> The last date for registration is October 16, 2026.
+      <strong>Important:</strong> The last date for registration is October 16, 2026. <span id="countdownTimer" style="display:block; margin-top:4px; font-weight:600; color:#be123c;"></span>
     </div>
   </header>
 
@@ -357,6 +357,52 @@
 </div>
 
 <script>
+/* ============================================================
+   APPLICATIONS CLOSED & COUNTDOWN TIMER HANDLER
+   ============================================================ */
+// Set deadline to midnight ending today (12:00 AM tonight)
+const deadline = new Date();
+deadline.setHours(24, 0, 0, 0);
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = deadline - now;
+  const formWrap = document.getElementById('formWrap');
+  
+  if (diff <= 0) {
+    if (formWrap) {
+      formWrap.innerHTML = `
+        <div style="text-align: center; padding: 40px 10px;">
+          <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 32px; color: var(--accent); margin-bottom: 16px;">
+            Applications Are Now Closed
+          </h2>
+          <p style="color: var(--muted); font-size: 16px; max-width: 48ch; margin: 0 auto 24px auto; line-height: 1.6;">
+            Thank you for an overwhelming response to the Forbes India 30 Under 30 2027 edition. The submission window has officially closed at midnight. Stay tuned for the announcement of the final list!
+          </p>
+          <a href="https://www.forbesindia.com/lists/30-under-30" target="_blank" rel="noopener noreferrer" style="color: var(--accent-blue); font-weight: 600; text-decoration: underline;">
+            Explore Past Lists &rarr;
+          </a>
+        </div>
+      `;
+    }
+    const timerEl = document.getElementById('countdownTimer');
+    if (timerEl) timerEl.textContent = "Applications closed.";
+    return;
+  }
+
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  const timerEl = document.getElementById('countdownTimer');
+  if (timerEl) {
+    timerEl.textContent = `Closing in: ${hours}h ${minutes}m ${seconds}s left`;
+  }
+}
+
+setInterval(updateCountdown, 1000);
+document.addEventListener("DOMContentLoaded", updateCountdown);
+
 const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbyFB6l7DVekuVx9kX_7W8TiVbWopuxf4fwjb0YhYTkwJZ2ETztQUanCV0w5PQEG07Vh/exec";
 
 function f(id, label, type, opts){
@@ -437,6 +483,7 @@ const ADVERTISING_MARKETING_FIELDS = [
   f('built_business','Have you built an agency or business of your own? Please share details.','textarea',{required:false}),
   f('milestones','What are the biggest milestones in your career so far?','textarea'),
   f('awards','Have you won or been shortlisted for any notable awards? Please include the award, category and year.','textarea',{required:false}),
+  motivationField(),
   f('reference','References','textarea'),
   f('media','Media links (have you been written about? Share links)','textarea',{required:false}),
   idField()
@@ -634,21 +681,6 @@ const ART_FIELDS = [
   f('exhibitions','Exhibitions where artworks have been showcased','textarea'),
   f('awards','Awards received','textarea',{required:false}),
   motivationField(),
-  idField()
-];
-
-const SPORTS_FIELDS = [
-  f('email','Email address','email'),
-  f('phone','Phone number','tel'),
-  f('sport','Sport/discipline','text'),
-  f('team_club','Current team/club or affiliation','text',{required:false}),
-  f('highlights','Career highlights and major titles/medals','textarea'),
-  f('personal_bests','Personal bests or key performance stats','textarea',{required:false}),
-  f('coaches','Coaches or mentors who shaped your career','textarea',{required:false}),
-  f('sponsorships','Sponsorships or endorsements, if any','textarea',{required:false}),
-  f('next_12','What\'s next — upcoming tournaments/goals for the next 12 months','textarea'),
-  motivationField(),
-  f('reference','References','textarea'),
   idField()
 ];
 
@@ -1047,71 +1079,73 @@ const submitStatus = document.getElementById('submitStatus');
 const formWrap = document.getElementById('formWrap');
 const confirmPanel = document.getElementById('confirmPanel');
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  submitStatus.textContent = '';
-  submitStatus.className = 'submit-status';
+if (form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitStatus.textContent = '';
+    submitStatus.className = 'submit-status';
 
-  if (!globalName) {
-    submitStatus.textContent = 'Please enter your name first.';
-    submitStatus.className = 'submit-status error';
-    return;
-  }
-  if (!globalDob || globalDob < '1996-12-31') {
-    submitStatus.textContent = 'Please enter an eligible date of birth first.';
-    submitStatus.className = 'submit-status error';
-    return;
-  }
-  if (!currentCategory) {
-    submitStatus.textContent = 'Please select a category first.';
-    submitStatus.className = 'submit-status error';
-    return;
-  }
+    if (!globalName) {
+      submitStatus.textContent = 'Please enter your name first.';
+      submitStatus.className = 'submit-status error';
+      return;
+    }
+    if (!globalDob || globalDob < '1996-12-31') {
+      submitStatus.textContent = 'Please enter an eligible date of birth first.';
+      submitStatus.className = 'submit-status error';
+      return;
+    }
+    if (!currentCategory) {
+      submitStatus.textContent = 'Please select a category first.';
+      submitStatus.className = 'submit-status error';
+      return;
+    }
 
-  if (!form.checkValidity()) {
-    form.reportValidity();
-    return;
-  }
-  if (ENDPOINT_URL.indexOf('PASTE_YOUR') === 0) {
-    submitStatus.textContent = 'Set ENDPOINT_URL to your Apps Script Web App URL first.';
-    submitStatus.className = 'submit-status error';
-    return;
-  }
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    if (ENDPOINT_URL.indexOf('PASTE_YOUR') === 0) {
+      submitStatus.textContent = 'Set ENDPOINT_URL to your Apps Script Web App URL first.';
+      submitStatus.className = 'submit-status error';
+      return;
+    }
 
-  submitBtn.disabled = true;
-  submitStatus.textContent = 'Submitting…';
+    submitBtn.disabled = true;
+    submitStatus.textContent = 'Submitting…';
 
-  try {
-    const { data, files } = await collectData();
-    const nameLabel = currentTrack === 'Professional' ? 'Your name' : 'Name';
-    data[nameLabel] = globalName;
-    data['Date of birth'] = globalDob;
-    data['Timestamp'] = new Date().toISOString();
+    try {
+      const { data, files } = await collectData();
+      const nameLabel = currentTrack === 'Professional' ? 'Your name' : 'Name';
+      data[nameLabel] = globalName;
+      data['Date of birth'] = globalDob;
+      data['Timestamp'] = new Date().toISOString();
 
-    const payload = {
-      category: currentCategory.name,
-      track: currentTrack,
-      data,
-      files
-    };
+      const payload = {
+        category: currentCategory.name,
+        track: currentTrack,
+        data,
+        files
+      };
 
-    const res = await fetch(ENDPOINT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    });
-    const result = await res.json();
-    if (!result.ok) throw new Error(result.error || 'Something went wrong. Please try again.');
+      const res = await fetch(ENDPOINT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (!result.ok) throw new Error(result.error || 'Something went wrong. Please try again.');
 
-    formWrap.style.display = 'none';
-    confirmPanel.classList.add('active');
+      formWrap.style.display = 'none';
+      confirmPanel.classList.add('active');
 
-  } catch (err) {
-    submitStatus.textContent = err.message || 'Submission failed. Please try again.';
-    submitStatus.className = 'submit-status error';
-    submitBtn.disabled = false;
-  }
-});
+    } catch (err) {
+      submitStatus.textContent = err.message || 'Submission failed. Please try again.';
+      submitStatus.className = 'submit-status error';
+      submitBtn.disabled = false;
+    }
+  });
+}
 </script>
 
 </body>
